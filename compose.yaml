@@ -11,6 +11,7 @@ services:
   server:
     build:
       context: .
+      target: dev
     environment:
       NODE_ENV: production
       POSTGRES_HOST: db
@@ -19,11 +20,14 @@ services:
       POSTGRES_DB: example
     ports:
       - 3000:3000
+      - 9229:9229
     depends_on:
       db:
         condition: service_healthy
     secrets:
       - db-password
+    volumes:
+      - ./docker-nodejs-sample/src:/usr/src/app/src
   db:
     image: postgres:17.6-alpine3.22
     restart: always
