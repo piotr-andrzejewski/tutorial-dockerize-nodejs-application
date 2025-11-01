@@ -38,7 +38,7 @@ USER node
 
 COPY ./docker-nodejs-sample .
 
-CMD node /src/index.js
+CMD node src/index.js
 
 FROM base AS test
 
