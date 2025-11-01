@@ -39,3 +39,18 @@ USER node
 COPY ./docker-nodejs-sample .
 
 CMD node /src/index.js
+
+FROM base AS test
+
+ENV NODE_ENV test
+
+RUN --mount=type=bind,source=docker-nodejs-sample/package.json,target=package.json \
+    --mount=type=bind,source=docker-nodejs-sample/package-lock.json,target=package-lock.json \
+    --mount=type=cache,target=/root/.npm \
+    npm ci --include=dev
+
+USER node
+
+COPY ./docker-nodejs-sample .
+
+RUN npm run test
